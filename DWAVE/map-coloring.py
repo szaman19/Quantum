@@ -33,6 +33,8 @@ def plot_map(sample):
     # Plot the sample with color-coded nodes
     node_colors = [color_map.get(node) for node in G.nodes()]
     nx.draw_circular(G, with_labels=True, node_color=node_colors, node_size=3000, cmap=plt.cm.rainbow)
+    #Saves the file as a png
+    plt.savefig("map-coloring.png",dpi=100,format='png')
     plt.show()
 
 # Valid configurations for the constraint that each node select a single color
@@ -57,30 +59,23 @@ for neighbor in neighbors:
 # Convert the binary constraint satisfaction problem to a binary quadratic model
 bqm = dwavebinarycsp.stitch(csp)
 
-# var_order = []
-# for each in province:
-#     for i in range(colors):
-#         var_order.append(each+str(i))
-
-mat = bqm.adj
-for each in bqm.adj.keys():
-    print(bqm.adj[each])
-print(mat)
 
 #Set up a solver using the local system’s default D-Wave Cloud Client configuration file
 #and sample 50 times
-# sampler = EmbeddingComposite(DWaveSampler())         # doctest: +SKIP
-# sampler = neal.SimulatedAnnealingSampler()
-# response = sampler.sample(bqm, num_reads=500)         # doctest: +SKIP
+
+
+#sampler = EmbeddingComposite(DWaveSampler()) #Uncomment this to use the DWave QPU         # doctest: +SKIP
+
+sampler = neal.SimulatedAnnealingSampler()
+response = sampler.sample(bqm, num_reads=500)         # doctest: +SKIP
 
 # Plot the lowest-energy sample if it meets the constraints
 
 # print(response)
 # print(response.samples())
 
-# sample = next(response.samples())
-      # doctest: +SKIP
-# if not csp.check(sample):              # doctest: +SKIP
-    # print("Failed to color map")
-# else:
-    # plot_map(sample)
+sample = next(response.samples())  # doctest: +SKIP
+if not csp.check(sample):              # doctest: +SKIP
+    print("Failed to color map")
+else:
+    plot_map(sample)
