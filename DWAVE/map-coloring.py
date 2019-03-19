@@ -64,15 +64,15 @@ bqm = dwavebinarycsp.stitch(csp)
 #and sample 50 times
 
 
-#sampler = EmbeddingComposite(DWaveSampler()) #Uncomment this to use the DWave QPU         # doctest: +SKIP
+sampler = EmbeddingComposite(DWaveSampler()) #Uncomment this to use the DWave QPU         # doctest: +SKIP
 
-sampler = neal.SimulatedAnnealingSampler()
-response = sampler.sample(bqm, num_reads=500)         # doctest: +SKIP
+#sampler = neal.SimulatedAnnealingSampler()
+response = sampler.sample(bqm, num_reads=2000)         # doctest: +SKIP
 
 # Plot the lowest-energy sample if it meets the constraints
 
 # print(response)
-# print(response.samples())
+#print(response.samples())
 
 sample = next(response.samples())  # doctest: +SKIP
 if not csp.check(sample):              # doctest: +SKIP
