@@ -64,7 +64,7 @@ bqm = dwavebinarycsp.stitch(csp)
 #and sample 50 times
 
 
-sampler = EmbeddingComposite(DWaveSampler()) #Uncomment this to use the DWave QPU         # doctest: +SKIP
+sampler = EmbeddingComposite(DWaveSampler(endpoint = 'https://cloud.dwavesys.com/sapi',token='' )) #Paste your token here      
 
 #sampler = neal.SimulatedAnnealingSampler()
 response = sampler.sample(bqm, num_reads=2000)         # doctest: +SKIP
